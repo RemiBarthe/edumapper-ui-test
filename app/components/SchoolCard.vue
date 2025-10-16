@@ -1,5 +1,12 @@
 <script setup lang="ts">
-defineProps<{
+interface School {
+  id: number;
+  name: string;
+  city: string;
+  type: string;
+}
+
+const props = defineProps<{
   name: string;
   city: string;
   type: string;
@@ -7,10 +14,25 @@ defineProps<{
 }>();
 
 const emit = defineEmits<{
-  (e: 'edit'): void;
+  (e: 'update', school: School): void;
 }>();
 
-const onEdit = () => emit('edit');
+const isEditing = ref(false);
+const selectedSchool = ref<School | null>(null);
+
+watch(selectedSchool, (newSchool) => {
+  if (newSchool) {
+    emit('update', newSchool);
+    nextTick(() => {
+      selectedSchool.value = null;
+      isEditing.value = false;
+    });
+  }
+});
+
+const startEditing = () => {
+  isEditing.value = true;
+};
 </script>
 
 <template>
@@ -38,6 +60,9 @@ const onEdit = () => emit('edit');
       </div>
     </div>
 
-    <Button variant="secondary" @click="onEdit" :aria-label="editLabel || 'Modifier le lycée'">Modifier</Button>
+    <SearchSelect v-if="isEditing" v-model="selectedSchool" placeholder="Rechercher un lycée..." class="w-full" />
+    <Button v-else variant="secondary" @click="startEditing" :aria-label="editLabel || 'Modifier le lycée'">
+      Modifier
+    </Button>
   </div>
 </template>
