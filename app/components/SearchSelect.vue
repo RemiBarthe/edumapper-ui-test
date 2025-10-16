@@ -13,6 +13,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   (e: 'update:modelValue', value: Option | null): void;
+  (e: 'cancel'): void;
 }>();
 
 const isOpen = ref(false);
@@ -45,6 +46,12 @@ const clearSelection = () => {
   searchQuery.value = '';
 };
 
+const cancelEdit = () => {
+  emit('cancel');
+  isOpen.value = false;
+  searchQuery.value = '';
+};
+
 // Close dropdown when clicking outside
 const handleClickOutside = (event: MouseEvent) => {
   if (container.value && !container.value.contains(event.target as Node)) {
@@ -67,10 +74,10 @@ onUnmounted(() => {
     <button
       type="button"
       @click="toggleDropdown"
-      class="flex w-full items-center justify-between gap-2 rounded-full border border-gray-300 bg-white px-4 py-3 text-left text-sm transition-colors hover:border-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none"
+      class="inline-flex w-full items-center justify-between gap-2 rounded-full bg-white px-4 py-2 text-left text-sm leading-4 font-medium text-gray-900 outline-1 outline-offset-[-1px] outline-gray-200 transition-colors hover:outline focus:ring-2 focus:ring-blue-500/20 focus:outline-blue-500 focus:outline-none"
     >
       <span v-if="modelValue" class="truncate"> {{ modelValue.name }} - {{ modelValue.city }} </span>
-      <span v-else class="text-gray-500">
+      <span v-else class="text-gray-900">
         {{ placeholder || 'Sélectionner un lycée' }}
       </span>
       <img
@@ -81,11 +88,10 @@ onUnmounted(() => {
       />
     </button>
 
-    <!-- Clear button -->
+    <!-- Cancel button (X) -->
     <button
-      v-if="modelValue && !isOpen"
       type="button"
-      @click.stop="clearSelection"
+      @click.stop="cancelEdit"
       class="absolute top-1/2 right-10 -translate-y-1/2 text-gray-400 hover:text-gray-600"
     >
       <svg

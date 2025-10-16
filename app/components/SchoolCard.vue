@@ -33,6 +33,11 @@ watch(selectedSchool, (newSchool) => {
 const startEditing = () => {
   isEditing.value = true;
 };
+
+const cancelEditing = () => {
+  isEditing.value = false;
+  selectedSchool.value = null;
+};
 </script>
 
 <template>
@@ -60,9 +65,16 @@ const startEditing = () => {
       </div>
     </div>
 
-    <SearchSelect v-if="isEditing" v-model="selectedSchool" placeholder="Rechercher un lycée..." class="w-full" />
-    <Button v-else variant="secondary" @click="startEditing" :aria-label="editLabel || 'Modifier le lycée'">
-      Modifier
-    </Button>
+    <div class="w-full min-h-[2rem]">
+      <SearchSelect
+        v-if="isEditing"
+        v-model="selectedSchool"
+        placeholder="Rechercher un lycée..."
+        @cancel="cancelEditing"
+      />
+      <Button v-else variant="secondary" @click="startEditing" :aria-label="editLabel || 'Modifier le lycée'">
+        Modifier
+      </Button>
+    </div>
   </div>
 </template>
