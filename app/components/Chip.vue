@@ -8,11 +8,11 @@ const emit = defineEmits<{
   (e: 'update:selected', value: boolean): void;
 }>();
 
-function toggle() {
+const toggle = () => {
   if (!props.disabled) {
     emit('update:selected', !props.selected);
   }
-}
+};
 </script>
 
 <template>

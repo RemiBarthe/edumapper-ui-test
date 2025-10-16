@@ -8,11 +8,11 @@ const props = defineProps<{
   isMulti?: boolean;
 }>();
 
-function isSelected(option: string) {
+const isSelected = (option: string) => {
   return props.isMulti ? Array.isArray(model.value) && model.value.includes(option) : model.value === option;
-}
+};
 
-function toggle(option: string) {
+const toggle = (option: string) => {
   if (props.disabled) return;
 
   if (props.isMulti) {
@@ -21,7 +21,7 @@ function toggle(option: string) {
   } else {
     model.value = isSelected(option) ? null : option;
   }
-}
+};
 </script>
 <template>
   <div class="space-y-4" role="group" :aria-label="title">
