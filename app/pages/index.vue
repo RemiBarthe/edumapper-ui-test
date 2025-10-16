@@ -1,10 +1,20 @@
 <script setup lang="ts">
-const { school, setSchool } = useSchool();
+const { school: savedSchool, setSchool } = useSchool();
+
+const { data: randomSchool } = await useFetch<{ id: number; name: string; city: string; type: string }>(
+  '/api/schools/random'
+);
+const { data: randomClasse } = await useFetch<string>('/api/classes/random');
+const { data: randomBacType } = await useFetch<string>('/api/bac-types/random');
+
+const { data: allClasses } = await useFetch<string[]>('/api/classes');
+const { data: allBacTypes } = await useFetch<string[]>('/api/bac-types');
+const { data: allSpecialities } = await useFetch<string[]>('/api/specialities');
 
 const currentSchool = ref({
-  name: school.value?.name || 'Lycée Gaston Berger',
-  city: school.value?.city || 'Lille',
-  type: school.value?.type || 'Lycée public'
+  name: savedSchool.value?.name || randomSchool.value?.name || 'Lycée Gaston Berger',
+  city: savedSchool.value?.city || randomSchool.value?.city || 'Lille',
+  type: savedSchool.value?.type || randomSchool.value?.type || 'Lycée public'
 });
 
 const handleSchoolUpdate = (updatedSchool: { name: string; city: string; type: string }) => {
@@ -12,8 +22,8 @@ const handleSchoolUpdate = (updatedSchool: { name: string; city: string; type: s
 };
 
 const expandedClasse = ref(false);
-const classe = ref<string | null>(school.value?.classe || null);
-const bac = ref<string | null>(school.value?.bac || null);
+const classe = ref<string | null>(savedSchool.value?.classe || randomClasse.value || null);
+const bac = ref<string | null>(savedSchool.value?.bac || randomBacType.value || null);
 
 const confirmClasse = () => {
   expandedClasse.value = false;
@@ -28,9 +38,8 @@ const disabledClasse = computed(() => {
   return !classe.value || !bac.value;
 });
 
-const SPECIALITIES = ['HGGSP', 'HLP', 'LLCE', 'LCA', 'Maths', 'NSI', 'PC', 'SVT', 'SI', 'SES', 'EPS', 'Arts', 'BE'];
 const expandedSpecialities = ref(false);
-const specialities = ref<string[]>(school.value?.specialities || []);
+const specialities = ref<string[]>(savedSchool.value?.specialities || []);
 
 const confirmSpecialities = () => {
   expandedSpecialities.value = false;
@@ -69,16 +78,11 @@ const submitAll = () => {
 
     <Accordion v-model="expandedClasse" formation="Classe" :description="descriptionClasse">
       <div class="flex flex-col gap-6">
-        <ChipGroup v-model="classe" :isMulti="false" :options="['Seconde', 'Première', 'Terminale']" />
+        <ChipGroup v-model="classe" :options="allClasses || []" />
 
         <hr class="border-gray-200" />
 
-        <ChipGroup
-          v-model="bac"
-          :isMulti="false"
-          title="Type de bac"
-          :options="['Général', 'Technologique', 'Professionnel']"
-        />
+        <ChipGroup v-model="bac" title="Type de bac" :options="allBacTypes || []" />
 
         <Button @click="confirmClasse" :disabled="disabledClasse">Confirmer</Button>
       </div>
@@ -86,7 +90,7 @@ const submitAll = () => {
 
     <Accordion v-model="expandedSpecialities" formation="Spécialités" :description="descriptionSpecialities">
       <div class="flex flex-col gap-6">
-        <ChipGroup v-model="specialities" :isMulti="true" :options="SPECIALITIES" />
+        <ChipGroup v-model="specialities" isMulti :options="allSpecialities || []" />
         <Button @click="confirmSpecialities" :disabled="disabledSpecialities">Confirmer</Button>
       </div>
     </Accordion>
