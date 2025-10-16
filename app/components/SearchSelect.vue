@@ -61,6 +61,12 @@ const handleClickOutside = (event: MouseEvent) => {
 
 onMounted(() => {
   document.addEventListener('click', handleClickOutside);
+  nextTick(() => {
+    isOpen.value = true;
+    setTimeout(() => {
+      searchInput.value?.focus();
+    }, 50);
+  });
 });
 
 onUnmounted(() => {

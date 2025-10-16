@@ -65,7 +65,7 @@ const cancelEditing = () => {
       </div>
     </div>
 
-    <div class="w-full min-h-[2rem]">
+    <div class="min-h-[2rem] w-full">
       <SearchSelect
         v-if="isEditing"
         v-model="selectedSchool"
