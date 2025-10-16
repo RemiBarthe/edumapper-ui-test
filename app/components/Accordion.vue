@@ -1,10 +1,10 @@
 <script setup lang="ts">
 defineProps<{ formation: string; description?: string }>();
-const expanded = ref(false);
+const expanded = defineModel<boolean>({ default: false });
 </script>
 
 <template>
-  <div class="space-y-2 rounded-2xl bg-white p-5">
+  <div class="rounded-2xl bg-white p-5">
     <div class="flex items-center justify-between">
       <h3 class="leading-[22px] font-semibold">{{ formation }}</h3>
 
@@ -19,13 +19,13 @@ const expanded = ref(false);
       </button>
     </div>
 
-    <div class="relative">
+    <div v-if="description || expanded" class="relative">
       <Transition name="swap">
-        <p v-if="!expanded && description" key="desc" class="text-sm text-gray-800">
+        <p v-if="!expanded && description" key="desc" class="mt-2 text-sm text-gray-800">
           {{ description }}
         </p>
 
-        <div v-else-if="expanded" key="content" class="pt-5">
+        <div v-else-if="expanded" key="content" class="mt-6">
           <slot />
         </div>
       </Transition>
