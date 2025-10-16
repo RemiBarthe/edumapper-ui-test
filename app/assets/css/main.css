@@ -1,1 +1,25 @@
-@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+  --spacing-15: 60px;
+  --container-720: 720px;
+
+  --color-gray-100: #f5f5f5;
+  --color-gray-200: #e0e0e0;
+  --color-gray-400: #bdbdbd;
+  --color-gray-600: #757575;
+  --color-gray-800: #333333;
+  --color-gray-900: #212121;
+
+  --color-beige-100: hsla(26, 30%, 95%, 1);
+  --color-beige-300: hsla(24, 23%, 91%, 1);
+  --color-surface: hsla(26, 30%, 95%, 1);
+}
+
+body,
+#__nuxt {
+  color: var(--color-gray-900);
+  background-color: var(--color-surface);
+}
