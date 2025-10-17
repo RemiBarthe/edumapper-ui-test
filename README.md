@@ -1,8 +1,25 @@
-# Nuxt Minimal Starter
+# Edumapper UI Test
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+This project was built as part of a frontend technical test for **Edumapper**.  
+It is a **Nuxt** application using **TypeScript** and **Tailwind CSS v4**, implementing a form flow based on the provided Figma design.
 
-## Setup
+## 🚀 Demo
+
+🔗 Live URL: https://edumapper-ui-test.vercel.app/
+
+## ✅ Features
+
+- ✅ Nuxt + TypeScript
+- ✅ Tailwind CSS v4
+- ✅ Reusable UI components (Button, Chip, Accordion, SchoolCard…)
+- ✅ Dynamic chip selection (single & multi select)
+- ✅ Collapsible form sections with transitions
+- ✅ API endpoint returning randomized data
+- ✅ Mobile-first responsive layout
+
+---
+
+## ⚙️ Setup
 
 Make sure to install dependencies:
 
