@@ -1,5 +1,3 @@
-// Mock data - Replace with actual database queries in production
-
 export const SCHOOLS = [
   { id: 1, name: 'Lycée Gaston Berger', city: 'Lille', type: 'Lycée public' },
   { id: 2, name: 'Lycée Faidherbe', city: 'Lille', type: 'Lycée public' },

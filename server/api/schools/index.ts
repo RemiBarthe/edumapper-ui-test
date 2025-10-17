@@ -8,7 +8,6 @@ export default defineEventHandler((event) => {
     return SCHOOLS;
   }
 
-  // Filter schools based on search query
   return SCHOOLS.filter(
     (school) =>
       school.name.toLowerCase().includes(search) ||

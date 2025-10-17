@@ -54,12 +54,12 @@ const cancelEditing = () => {
 
       <div class="flex flex-wrap gap-2 text-sm leading-4">
         <div class="flex items-center gap-1">
-          <img src="/assets/images/map-pin.svg" alt="" class="h-3 w-3 flex-shrink-0" />
+          <img src="/assets/images/map-pin.svg" alt="" aria-hidden="true" class="h-3 w-3 flex-shrink-0 text-pink-50" />
           <p>{{ city }}</p>
         </div>
 
         <div class="flex items-center gap-1">
-          <img src="/assets/images/building.svg" alt="" class="h-3 w-3 flex-shrink-0" />
+          <img src="/assets/images/building.svg" alt="" aria-hidden="true" class="h-3 w-3 flex-shrink-0" />
           <p>{{ type }}</p>
         </div>
       </div>
