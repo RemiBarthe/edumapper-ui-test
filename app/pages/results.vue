@@ -1,7 +1,40 @@
 <script setup lang="ts">
-const admissionChance = ref(91);
-const reliability = ref('Très élevées');
-const reliabilityStars = ref(4);
+const finalAdmissionChance = Math.floor(Math.random() * 40) + 60;
+
+const getReliability = (percentage: number) => {
+  if (percentage >= 90) return { text: 'Très élevées', stars: 5 };
+  if (percentage >= 80) return { text: 'Très élevées', stars: 4 };
+  if (percentage >= 70) return { text: 'Élevées', stars: 4 };
+  if (percentage >= 60) return { text: 'Élevées', stars: 3 };
+  return { text: 'Moyennes', stars: 3 };
+};
+
+const reliabilityData = getReliability(finalAdmissionChance);
+
+const displayedChance = ref(0);
+const displayedCircleProgress = ref(0);
+const reliability = ref(reliabilityData.text);
+const reliabilityStars = ref(reliabilityData.stars);
+
+onMounted(() => {
+  const duration = 400;
+  const steps = 60;
+  const increment = finalAdmissionChance / steps;
+  const stepDuration = duration / steps;
+
+  let currentStep = 0;
+  const interval = setInterval(() => {
+    currentStep++;
+    if (currentStep >= steps) {
+      displayedChance.value = finalAdmissionChance;
+      displayedCircleProgress.value = finalAdmissionChance;
+      clearInterval(interval);
+    } else {
+      displayedChance.value = Math.floor(increment * currentStep);
+      displayedCircleProgress.value = increment * currentStep;
+    }
+  }, stepDuration);
+});
 
 const handleTestAnotherFormation = () => {
   navigateTo('/');
@@ -40,7 +73,7 @@ const handleTestAnotherFormation = () => {
             stroke-width="6"
             fill="none"
             stroke-linecap="round"
-            :stroke-dasharray="`${(admissionChance * 339.292) / 100} 339.292`"
+            :stroke-dasharray="`${(displayedCircleProgress * 339.292) / 100} 339.292`"
           />
           <defs>
             <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
@@ -59,7 +92,7 @@ const handleTestAnotherFormation = () => {
         <div
           class="flex items-center justify-center gap-2 px-4 py-1.5 text-xl leading-[1.4] font-semibold text-gray-900"
         >
-          <span> {{ admissionChance }}% </span>
+          <span> {{ displayedChance }}% </span>
           <span>•</span>
           <span> {{ reliability }} </span>
         </div>
